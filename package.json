@@ -39,6 +39,7 @@
     "codecov": "^3.8.2",
     "express-as-promise": "^1.2.0",
     "mocha": "^9.0.2",
+    "nodeify-fetch": "^2.2.1",
     "stricter-standard": "^0.2.0"
   }
 }

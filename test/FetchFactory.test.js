@@ -1,9 +1,11 @@
 import { strictEqual } from 'assert'
 import rdf from '@rdfjs/data-model'
+import fetch from '@rdfjs/fetch-lite'
 import formats from '@rdfjs/formats-common'
 import toNT from '@rdfjs/to-ntriples'
 import withServer from 'express-as-promise/withServer.js'
 import { describe, it } from 'mocha'
+import nodeFetch from 'nodeify-fetch'
 import DataFactory from '../DataFactory.js'
 import DatasetFactory from '../DatasetFactory.js'
 import Environment from '../Environment.js'
@@ -20,6 +22,19 @@ example.quad = rdf.quad(
 describe('FetchFactory', () => {
   it('should be a constructor', () => {
     strictEqual(typeof FetchFactory, 'function')
+  })
+
+  describe('.clone', () => {
+    it('should copy the key-value pairs of the config', () => {
+      const env = new Environment([FetchFactory])
+      env._fetch.a = '1'
+      env._fetch.b = {}
+
+      const clone = env.clone()
+
+      strictEqual(clone._fetch.a, env._fetch.a)
+      strictEqual(clone._fetch.b, env._fetch.b)
+    })
   })
 
   describe('.fetch', () => {
@@ -96,6 +111,59 @@ describe('FetchFactory', () => {
 
         strictEqual(called, true)
       })
+    })
+
+    it('should use an alternative fetch implementation if set in the config', async () => {
+      await withServer(async server => {
+        let called = false
+        const customFetch = (url, options) => {
+          called = true
+
+          return nodeFetch(url, options)
+        }
+        const env = new Environment([DataFactory, FetchFactory, FormatsFactory])
+        env.fetch.config('fetch', customFetch)
+        env.formats.import(formats)
+
+        server.app.get('/', (req, res) => {
+          res.set('content-type', 'text/turtle').end(toNT(example.quad))
+        })
+
+        await env.fetch(await server.listen())
+
+        strictEqual(called, true)
+      })
+    })
+  })
+
+  describe('.fetch.config', () => {
+    it('should be a function', () => {
+      const env = new Environment([FetchFactory])
+
+      strictEqual(typeof env.fetch.config, 'function')
+    })
+
+    it('should change the given config value', () => {
+      const value = {}
+      const env = new Environment([FetchFactory])
+
+      env.fetch.config('fetch', value)
+
+      strictEqual(env._fetch.fetch, value)
+    })
+  })
+
+  describe('.fetch.Headers', () => {
+    it('should be a constructor', () => {
+      const env = new Environment([FetchFactory])
+
+      strictEqual(typeof env.fetch.Headers, 'function')
+    })
+
+    it('should be the Headers class from @rdfjs/fetch-lite', () => {
+      const env = new Environment([FetchFactory])
+
+      strictEqual(env.fetch.Headers, fetch.Headers)
     })
   })
 })
