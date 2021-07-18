@@ -1,6 +1,6 @@
 {
   "name": "@rdfjs/environment",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A flexible RDF/JS factory",
   "type": "module",
   "main": "Environment.js",
