@@ -50,6 +50,23 @@ describe('Environment', () => {
     strictEqual(context, env)
   })
 
+  it('should use the environment as this context for all methods if bind is true', () => {
+    let context = null
+    class Factory {
+      a () {
+        context = this
+      }
+    }
+    Factory.exports = ['a']
+
+    const env = new Environment([Factory], { bind: true })
+    const { a } = env
+
+    a()
+
+    strictEqual(context, env)
+  })
+
   it('should attach all methods defined in exports', () => {
     class Factory {
       a () {}
