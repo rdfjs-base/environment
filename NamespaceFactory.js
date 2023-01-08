@@ -1,11 +1,3 @@
-import namespace from '@rdfjs/namespace'
-
-class NamespaceFactory {
-  namespace (baseIRI) {
-    return namespace(baseIRI, { factory: this })
-  }
-}
-
-NamespaceFactory.exports = ['namespace']
+import NamespaceFactory from '@rdfjs/namespace/Factory.js'
 
 export default NamespaceFactory

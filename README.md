@@ -1,7 +1,6 @@
 # @rdfjs/environment
 
-[![Build Status](https://img.shields.io/github/workflow/status/rdfjs-base/environment/CI)](https://github.com/rdfjs-base/environment/actions/workflows/ci.yaml)
-
+[![build status](https://img.shields.io/github/actions/workflow/status/rdfjs-base/environment/test.yaml?branch=master)](https://github.com/rdfjs-base/environment/actions/workflows/test.yaml)
 [![npm version](https://img.shields.io/npm/v/@rdfjs/environment.svg)](https://www.npmjs.com/package/@rdfjs/environment)
 
 This package provides a flexible RDF/JS factory.

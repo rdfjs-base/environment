@@ -1,11 +1,3 @@
-import factory from '@rdfjs/dataset'
-
-class DatasetFactory {
-  dataset (quads) {
-    return factory.dataset(quads)
-  }
-}
-
-DatasetFactory.exports = ['dataset']
+import DatasetFactory from '@rdfjs/dataset/Factory.js'
 
 export default DatasetFactory
