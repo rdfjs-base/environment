@@ -1,6 +1,6 @@
 import { strictEqual } from 'assert'
 import specTests from '@rdfjs/data-model/test/index.js'
-import { describe, it } from 'mocha'
+import mocha, { describe, it } from 'mocha'
 import DataFactory from '../DataFactory.js'
 import Environment from '../Environment.js'
 
@@ -12,6 +12,6 @@ describe('DataFactory', () => {
   describe('should pass the spec tests', () => {
     const factory = new Environment([DataFactory])
 
-    specTests(factory)
+    specTests({ factory, mocha })
   })
 })

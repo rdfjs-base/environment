@@ -1,6 +1,6 @@
 import { strictEqual } from 'assert'
 import rdf from '@rdfjs/data-model'
-import fetch from '@rdfjs/fetch-lite'
+import { Headers } from '@rdfjs/fetch-lite'
 import formats from '@rdfjs/formats-common'
 import toNT from '@rdfjs/to-ntriples'
 import withServer from 'express-as-promise/withServer.js'
@@ -163,7 +163,7 @@ describe('FetchFactory', () => {
     it('should be the Headers class from @rdfjs/fetch-lite', () => {
       const env = new Environment([FetchFactory])
 
-      strictEqual(env.fetch.Headers, fetch.Headers)
+      strictEqual(env.fetch.Headers, Headers)
     })
   })
 })
